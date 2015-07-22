@@ -10,7 +10,9 @@ public class CommandListener extends Listeners<BanManager> {
 
   @EventHandler
   public void onCommand(PlayerCommandPreprocessEvent event) {
-    if (!plugin.getPlayerMuteStorage().isMuted(event.getPlayer().getUniqueId())) {
+	  if (!plugin.getPlayerMuteStorage().isMuted(BanManager.getUUID(event.getPlayer().getName()))) {
+	//old
+	//if (!plugin.getPlayerMuteStorage().isMuted(event.getPlayer().getUniqueId())) {
       return;
     }
 

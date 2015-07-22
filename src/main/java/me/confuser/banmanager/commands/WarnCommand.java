@@ -123,7 +123,7 @@ public class WarnCommand extends AutoCompleteNameTabCommand<BanManager> {
           actor = plugin.getPlayerStorage().getConsole();
         }
 
-        boolean isOnline = plugin.getServer().getPlayer(player.getUUID()) != null;
+        boolean isOnline = BanManager.getPlayer(player.getUUID()) != null;
 
         final PlayerWarnData warning = new PlayerWarnData(player, actor, reason, isOnline);
 
@@ -142,7 +142,7 @@ public class WarnCommand extends AutoCompleteNameTabCommand<BanManager> {
         }
 
         if (isOnline) {
-          Player bukkitPlayer = plugin.getServer().getPlayer(player.getUUID());
+        	Player bukkitPlayer = BanManager.getPlayer(player.getUUID());
 
           Message warningMessage = Message.get("warn.player.warned")
                                           .set("displayName", bukkitPlayer.getDisplayName())

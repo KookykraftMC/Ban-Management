@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.util.UUID;
 
 import lombok.Setter;
+import me.confuser.banmanager.BanManager;
 import me.confuser.banmanager.storage.PlayerStorage;
 import me.confuser.banmanager.storage.mysql.ByteArray;
 import me.confuser.banmanager.util.IPUtils;
@@ -14,6 +15,7 @@ import org.bukkit.entity.Player;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+
 import lombok.Getter;
 
 @DatabaseTable(tableName = "players", daoClass = PlayerStorage.class)
@@ -40,10 +42,15 @@ public class PlayerData {
       }
 
       public PlayerData(Player player) {
-            uuid = player.getUniqueId();
-            id = UUIDUtils.toBytes(uuid);
-            name = player.getName();
+    	  	name = player.getName();
+    	  	//UUID Provider Integration @MrWisski
+  	  		uuid = BanManager.getUUID(name);
+  	  		//old
+  	  		//uuid = player.getUniqueId();
+    	  	id = UUIDUtils.toBytes(uuid);
+            
             ip = IPUtils.toLong(player.getAddress().getAddress());
+            
       }
 
       public PlayerData(UUID uuid, String name) {

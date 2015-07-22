@@ -180,7 +180,7 @@ public class TempMuteCommand extends AutoCompleteNameTabCommand<BanManager> {
           return;
         }
 
-        Player bukkitPlayer = plugin.getServer().getPlayer(player.getUUID());
+        Player bukkitPlayer = BanManager.getPlayer(player.getUUID());
 
         if (bukkitPlayer == null) return;
 

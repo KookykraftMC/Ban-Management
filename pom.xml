@@ -110,6 +110,10 @@
             <url>http://repo.bukkit.org/content/groups/public</url>
         </repository>
         <repository>
+        	<id>uuidprovider-repo</id>
+        	<url>http://github.com/LucidTheStick/UUIDProvider</url>
+        </repository>
+        <repository>
             <id>confuser-repo</id>
             <url>http://ci.frostcast.net/plugin/repository/everything</url>
         </repository>
@@ -202,6 +206,13 @@
             <groupId>com.maxmind.geoip2</groupId>
             <artifactId>geoip2</artifactId>
             <version>2.2.0</version>
+        </dependency>
+        <dependency>
+        	<groupId>net.kaikk.mc</groupId>
+        	<artifactId>uuidprovider</artifactId>
+        	<version>4.0.0</version>
+        	<scope>system</scope>
+        	<systemPath>C:\Users\YourName\Documents\GitHub\UUIDProvider\UUIDProvider\target\uuidprovider.jar</systemPath>
         </dependency>
     </dependencies>
     <properties>

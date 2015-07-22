@@ -72,7 +72,7 @@ public class ExternalBanSync implements Runnable {
           @Override
           public void run() {
             // TODO move into a listener
-            Player bukkitPlayer = plugin.getServer().getPlayer(localBan.getPlayer().getUUID());
+            Player bukkitPlayer = plugin.getPlayer(localBan.getPlayer().getUUID());
 
             if (bukkitPlayer == null) return;
 

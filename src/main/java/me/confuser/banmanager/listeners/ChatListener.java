@@ -14,11 +14,17 @@ public class ChatListener extends Listeners<BanManager> {
 
   @EventHandler
   public void onPlayerChat(AsyncPlayerChatEvent event) {
-    if (!plugin.getPlayerMuteStorage().isMuted(event.getPlayer().getUniqueId())) {
+	  //UUID Provider Integeration @MrWisski
+	if (!plugin.getPlayerMuteStorage().isMuted(BanManager.getUUID(event.getPlayer().getName()))) {
+	//old
+	//if (!plugin.getPlayerMuteStorage().isMuted(event.getPlayer().getUniqueId())) {
       return;
     }
 
-    PlayerMuteData mute = plugin.getPlayerMuteStorage().getMute(event.getPlayer().getUniqueId());
+	//UUID Provider Integration @MrWisski
+	PlayerMuteData mute = plugin.getPlayerMuteStorage().getMute(BanManager.getUUID(event.getPlayer().getName()));
+	//old
+	//PlayerMuteData mute = plugin.getPlayerMuteStorage().getMute(event.getPlayer().getUniqueId());
 
     if (mute.hasExpired()) {
       try {

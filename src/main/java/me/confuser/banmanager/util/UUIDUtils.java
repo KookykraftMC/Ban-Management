@@ -77,7 +77,10 @@ public class UUIDUtils implements Callable<Map<String, UUID>> {
   }
 
   public static byte[] toBytes(Player player) {
-    return toBytes(player.getUniqueId());
+	  //UUID Provider Integration @MrWisski
+	  return toBytes(BanManager.getUUID(player.getName()));
+	  //old
+	  //return toBytes(player.getUniqueId());
   }
 
   public static UUID fromBytes(byte[] array) {

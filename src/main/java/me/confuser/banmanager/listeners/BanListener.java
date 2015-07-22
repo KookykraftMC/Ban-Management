@@ -44,8 +44,8 @@ public class BanListener extends Listeners<BanManager> {
 
     // Check if the sender is online and does not have the
     // broadcastPermission
-    Player player;
-    if ((player = plugin.getServer().getPlayer(ban.getActor().getUUID())) == null) {
+    Player player = BanManager.getPlayer(ban.getActor().getUUID());
+    if (player == null) {
       return;
     }
 
@@ -91,8 +91,8 @@ public class BanListener extends Listeners<BanManager> {
 
     // Check if the sender is online and does not have the
     // broadcastPermission
-    Player player;
-    if ((player = plugin.getServer().getPlayer(ban.getActor().getUUID())) == null) {
+    Player player = BanManager.getPlayer(ban.getActor().getUUID());
+    if (player == null) {
       return;
     }
 
@@ -128,8 +128,8 @@ public class BanListener extends Listeners<BanManager> {
 
     // Check if the sender is online and does not have the
     // broadcastPermission
-    Player player;
-    if ((player = plugin.getServer().getPlayer(ban.getActor().getUUID())) == null) {
+    Player player = BanManager.getPlayer(ban.getActor().getUUID());
+    if (player == null) {
       return;
     }
 

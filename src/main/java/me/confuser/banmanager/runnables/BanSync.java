@@ -58,7 +58,7 @@ public class BanSync implements Runnable {
 
           @Override
           public void run() {
-            Player bukkitPlayer = plugin.getServer().getPlayer(ban.getPlayer().getUUID());
+            Player bukkitPlayer = plugin.getPlayer(ban.getPlayer().getUUID());
 
             if (bukkitPlayer == null) return;
 

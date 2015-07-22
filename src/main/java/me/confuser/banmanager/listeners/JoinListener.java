@@ -90,8 +90,10 @@ public class JoinListener extends Listeners<BanManager> {
       handleJoinDeny(event.getAddress().toString(), data.getReason());
       return;
     }
-
-    PlayerBanData data = plugin.getPlayerBanStorage().getBan(event.getUniqueId());
+    //UUID Provider Integration @MrWisski
+    PlayerBanData data = plugin.getPlayerBanStorage().getBan(BanManager.getUUID(event.getName()));
+    //old
+    //PlayerBanData data = plugin.getPlayerBanStorage().getBan(event.getUniqueId());
 
     if (data != null && data.hasExpired()) {
       try {
@@ -139,7 +141,10 @@ public class JoinListener extends Listeners<BanManager> {
 
   @EventHandler(priority = EventPriority.MONITOR)
   public void onJoin(AsyncPlayerPreLoginEvent event) {
-    PlayerData player = new PlayerData(event.getUniqueId(), event.getName(), event.getAddress());
+	  //UUID Provider Integration @MrWisski
+	PlayerData player = new PlayerData(BanManager.getUUID(event.getName()), event.getName(), event.getAddress());
+    //old
+	//PlayerData player = new PlayerData(event.getUniqueId(), event.getName(), event.getAddress());
 
     try {
       plugin.getPlayerStorage().createOrUpdate(player);
@@ -162,7 +167,10 @@ public class JoinListener extends Listeners<BanManager> {
         CloseableIterator<PlayerNoteData> notesItr = null;
 
         try {
-          notesItr = plugin.getPlayerNoteStorage().getNotes(event.getPlayer().getUniqueId());
+        	//UUID Provider Integration @MrWisski
+          notesItr = plugin.getPlayerNoteStorage().getNotes(BanManager.getUUID(event.getPlayer().getName()));
+          //old
+          //notesItr = plugin.getPlayerNoteStorage().getNotes(event.getPlayer().getUniqueId());
           ArrayList<String> notes = new ArrayList<String>();
 
           while (notesItr.hasNext()) {
@@ -194,7 +202,11 @@ public class JoinListener extends Listeners<BanManager> {
 
         CloseableIterator<PlayerWarnData> warnings = null;
         try {
-          warnings = plugin.getPlayerWarnStorage().getUnreadWarnings(event.getPlayer().getUniqueId());
+        	//UUID Provider Integration @MrWisski
+          warnings = plugin.getPlayerWarnStorage().getUnreadWarnings(BanManager.getUUID(event.getPlayer().getName()));
+        	//old
+          
+          //warnings = plugin.getPlayerWarnStorage().getUnreadWarnings(event.getPlayer().getUniqueId());
 
           while (warnings.hasNext()) {
             PlayerWarnData warning = warnings.next();
@@ -264,7 +276,10 @@ public class JoinListener extends Listeners<BanManager> {
 
       public void run() {
         final long ip = IPUtils.toLong(event.getAddress());
-        final UUID uuid = event.getPlayer().getUniqueId();
+        //UUID Provider Integration @MrWisski
+        final UUID uuid = BanManager.getUUID(event.getPlayer().getName());
+        //old
+        //final UUID uuid = event.getPlayer().getUniqueId();
         List<PlayerData> duplicates = plugin.getPlayerBanStorage().getDuplicates(ip);
 
         if (duplicates.isEmpty()) {
@@ -327,7 +342,7 @@ public class JoinListener extends Listeners<BanManager> {
 
           @Override
           public void run() {
-            Player bukkitPlayer = plugin.getServer().getPlayer(newBan.getPlayer().getUUID());
+            Player bukkitPlayer = plugin.getPlayer(newBan.getPlayer().getUUID());
 
             Message kickMessage = Message.get("ban.player.kick")
                                          .set("displayName", bukkitPlayer.getDisplayName())

@@ -26,8 +26,8 @@ public class NoteListener extends Listeners<BanManager> {
 
     // Check if the sender is online and does not have the
     // broadcastPermission
-    Player player;
-    if ((player = plugin.getServer().getPlayer(note.getActor().getUUID())) == null) {
+    Player player = BanManager.getPlayer(note.getActor().getUUID());
+    if (player == null) {
       return;
     }
 

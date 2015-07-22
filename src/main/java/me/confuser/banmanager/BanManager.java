@@ -2,6 +2,7 @@ package me.confuser.banmanager;
 
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.logger.LocalLog;
+
 import lombok.Getter;
 import me.confuser.banmanager.commands.*;
 import me.confuser.banmanager.commands.external.*;
@@ -15,15 +16,30 @@ import me.confuser.banmanager.storage.mysql.MySQLDatabase;
 import me.confuser.banmanager.util.DateUtils;
 import me.confuser.banmanager.util.UpdateUtils;
 import me.confuser.bukkitutil.BukkitPlugin;
+
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.mcstats.MetricsLite;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
+
+import java.util.UUID;
+
+
+
+
+//For 1.6.4 UUID Compatibility - @MrWisski
+import net.kaikk.mc.uuidprovider.UUIDProvider;
+
 public class BanManager extends BukkitPlugin {
 
   @Getter
   public static BanManager plugin;
+  
+  //For 1.6.4 UUID Compat - @MrWisski
+  private UUIDProvider uuidprov;
 
   private JdbcPooledConnectionSource localConn;
   private JdbcPooledConnectionSource externalConn;
@@ -151,6 +167,21 @@ public class BanManager extends BukkitPlugin {
     setupCommands();
     setupRunnables();
 
+    //UUID Provider service integration - @MrWisski
+    try {
+    	Plugin uuidplugin = this.getServer().getPluginManager().getPlugin("UUIDProvider");
+    	if(uuidplugin instanceof UUIDProvider){
+    		this.uuidprov = (UUIDProvider)uuidplugin;
+    		getLogger().info("Found UUIDProvider plugin! Using UUIDProvider for all UUID related activities!");
+    	} else {
+    		getLogger().warning("Could not find UUIDProvider - Will use default BM UUID Provider services - NOT COMPATIBLE WITH 1.6.4!");
+    	}
+    } catch (Exception e) {
+    	getLogger().severe("Caught exception establishing external UUID Provider services : ");
+    	getLogger().severe(e.getMessage());
+    	e.printStackTrace();
+    }
+    
     try {
       MetricsLite metrics = new MetricsLite(this);
       metrics.start();
@@ -505,4 +536,48 @@ public class BanManager extends BukkitPlugin {
 
     getServer().getScheduler().runTaskTimerAsynchronously(plugin, runnable, length, length);
   }
+  
+  //UUID Provider Integration @MrWisski
+  @SuppressWarnings("deprecation")
+  public static UUID getUUID(String name){
+	  UUID uuid;
+	  if(plugin.uuidprov != null) {
+		  uuid = UUIDProvider.getCachedPlayer(name);
+		  if(uuid == null){
+			  //fallback to getting UUID from mojang.
+			  uuid = UUIDProvider.uuidFetcher(name);
+		  }
+		  //if null, this player never even existed!
+		  return uuid;
+	  }
+	
+	  return plugin.getServer().getPlayer(name).getUniqueId();
+	  
+  }
+  
+  @SuppressWarnings("deprecation")
+public static Player getPlayer(UUID uuid){
+	  String name;
+	  
+	  if(plugin.uuidprov != null){
+		  
+		  name = UUIDProvider.getCachedPlayer(uuid);
+		  if(name == ""){
+			  //Fallback to getting the name from mojang.
+			name = UUIDProvider.nameFetcher(uuid);
+		  } 
+		  
+		  Player p = null;
+		  try {
+			  //getPlayer likes to throw exceptions. catch, ignore.
+			  p = plugin.getServer().getPlayer(name);
+		  } catch(Throwable t){
+			  return null;
+		  }
+		  return p;
+	  }
+	  
+	  return plugin.getServer().getPlayer(uuid);
+  }
+  
 }

@@ -38,8 +38,8 @@ public class MuteListener extends Listeners<BanManager> {
 
     // Check if the sender is online and does not have the
     // broadcastPermission
-    Player player;
-    if ((player = plugin.getServer().getPlayer(mute.getActor().getUUID())) == null) {
+    Player player = BanManager.getPlayer(mute.getActor().getUUID());
+    if (player == null) {
       return;
     }
 

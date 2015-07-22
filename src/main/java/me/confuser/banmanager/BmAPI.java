@@ -1,10 +1,12 @@
 package me.confuser.banmanager;
 
 import com.j256.ormlite.dao.CloseableIterator;
+
 import me.confuser.banmanager.data.*;
 import me.confuser.banmanager.util.IPUtils;
 import me.confuser.banmanager.util.UUIDUtils;
 import me.confuser.bukkitutil.Message;
+
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
@@ -42,7 +44,10 @@ public class BmAPI {
    * @throws SQLException
    */
   public static PlayerData getPlayer(Player player) throws SQLException {
-    return getPlayer(player.getUniqueId());
+	  //UUID Provider Integration @MrWisski
+	  return getPlayer(BanManager.getUUID(player.getName()));
+	  //old
+	  //return getPlayer(player.getUniqueId());
   }
 
   /**
@@ -193,7 +198,10 @@ public class BmAPI {
    * @return
    */
   public static boolean isBanned(Player player) {
-    return isBanned(player.getUniqueId());
+	  //UUID Provider Integration @MrWisski
+	  return isBanned(BanManager.getUUID(player.getName()));
+	  //old
+	  //return isBanned(player.getUniqueId());
   }
 
   /**
@@ -238,7 +246,10 @@ public class BmAPI {
    * @return
    */
   public static PlayerBanData getCurrentBan(Player player) {
-    return plugin.getPlayerBanStorage().getBan(player.getUniqueId());
+	  //UUID Provider Integration @MrWisski
+	  return plugin.getPlayerBanStorage().getBan(BanManager.getUUID(player.getName()));
+	  //old
+	  //return plugin.getPlayerBanStorage().getBan(player.getUniqueId());
   }
 
 
@@ -370,7 +381,10 @@ public class BmAPI {
    * @return
    */
   public static boolean isMuted(Player player) {
-    return isMuted(player.getUniqueId());
+	  //UUID Provider Integration @MrWisski
+	  return isMuted(BanManager.getUUID(player.getName()));
+	  //old
+	  //return isMuted(player.getUniqueId());
   }
 
   /**
@@ -415,7 +429,10 @@ public class BmAPI {
    * @return
    */
   public static PlayerMuteData getCurrentMute(Player player) {
-    return plugin.getPlayerMuteStorage().getMute(player.getUniqueId());
+	  //UUID Provider Integration @MrWisski
+	  return plugin.getPlayerMuteStorage().getMute(BanManager.getUUID(player.getName()));
+	  //old
+	  //return plugin.getPlayerMuteStorage().getMute(player.getUniqueId());
   }
 
 
