@@ -110,6 +110,7 @@ public class TempBanCommand extends AutoCompleteNameTabCommand<BanManager> {
         if (isUUID) {
           try {
             player = plugin.getPlayerStorage().queryForId(UUIDUtils.toBytes(UUID.fromString(playerName)));
+              plugin.getLogger().severe("DEBUG: PLAYER: " + player);
           } catch (SQLException e) {
             sender.sendMessage(Message.get("sender.error.exception").toString());
             e.printStackTrace();
@@ -133,7 +134,9 @@ public class TempBanCommand extends AutoCompleteNameTabCommand<BanManager> {
 
         if (sender instanceof Player) {
           try {
-            actor = plugin.getPlayerStorage().queryForId(UUIDUtils.toBytes((Player) sender));
+              plugin.getLogger().severe("DEBUG: SENDER: " + sender);
+              actor = plugin.getPlayerStorage().queryForId(UUIDUtils.toBytes((Player) sender));
+              plugin.getLogger().severe("DEBUG: ACTOR: " + actor);
           } catch (SQLException e) {
             sender.sendMessage(Message.get("sender.error.exception").toString());
             e.printStackTrace();

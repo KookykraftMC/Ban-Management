@@ -133,6 +133,10 @@
             <id>Central</id>
             <url>http://repo1.maven.org/maven2</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
     <dependencies>
         <dependency>
@@ -208,11 +212,9 @@
             <version>2.2.0</version>
         </dependency>
         <dependency>
-        	<groupId>net.kaikk.mc</groupId>
-        	<artifactId>uuidprovider</artifactId>
-        	<version>4.0.0</version>
-        	<scope>system</scope>
-        	<systemPath>C:\Users\YourName\Documents\GitHub\UUIDProvider\UUIDProvider\target\uuidprovider.jar</systemPath>
+        	<groupId>com.github.LucidTheStick</groupId>
+        	<artifactId>UUIDProvider</artifactId>
+        	<version>7109e91c3c160eb5830f260f44deac61e070ee55</version>
         </dependency>
     </dependencies>
     <properties>

@@ -86,6 +86,6 @@ public class PlayerData {
       }
 
       public Player getPlayer() {
-            return Bukkit.getPlayer(uuid);
+            return Bukkit.getPlayer(name);
       }
 }
