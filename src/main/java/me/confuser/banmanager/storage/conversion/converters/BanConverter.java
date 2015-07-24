@@ -34,9 +34,12 @@ public class BanConverter extends Converter {
         PlayerData player = playerStorage.retrieve(name, false);
         PlayerData actor = playerStorage.retrieve(actorName, false);
 
-        if (actor == null) {
-          actor = playerStorage.getConsole();
-        }
+          if (actor == null && !(actorName.equalsIgnoreCase("Console"))) {
+              actor = findAndCreate(actorName, created);
+          }
+          if (actor == null) {
+              actor = playerStorage.getConsole();
+          }
 
         if (player == null) {
           player = findAndCreate(name, created);
@@ -51,7 +54,7 @@ public class BanConverter extends Converter {
         if (plugin.getPlayerBanStorage().isBanned(player.getUUID())) continue;
 
         PlayerBanData ban = new PlayerBanData(player, actor, reason, expires, created);
-        
+
         plugin.getPlayerBanStorage().create(ban);
       }
     } catch (SQLException e) {

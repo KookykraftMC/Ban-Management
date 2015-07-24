@@ -38,9 +38,12 @@ public class IpBanConverter extends Converter {
 
         PlayerData actor = playerStorage.retrieve(actorName, false);
 
-        if (actor == null) {
-          actor = playerStorage.getConsole();
-        }
+          if (actor == null && !(actorName.equalsIgnoreCase("Console"))) {
+              actor = findAndCreate(actorName, created);
+          }
+          if (actor == null) {
+              actor = playerStorage.getConsole();
+          }
 
         IpBanData ban = new IpBanData(ip, actor, reason, expires, created);
 

@@ -30,12 +30,26 @@ public abstract class Converter {
     try {
       profile = UUIDUtils.getUUIDProfile(name, lastSeen);
     } catch (Exception e) {
-      return null;
+        //e.printStackTrace();
+      //return null;
+        profile = null;
     }
+
+      if (profile == null) {
+          try {
+              Thread.sleep(1010L);
+              lastSeen = 0;
+              profile = UUIDUtils.getUUIDProfile(name, lastSeen);
+          } catch (Exception e) {
+              //e.printStackTrace();
+              return null;
+          }
+      }
 
     if (profile == null) return null;
 
-    PlayerData data = new PlayerData(profile.getUuid(), profile.getName(), ip, lastSeen);
+    //PlayerData data = new PlayerData(profile.getUuid(), profile.getName(), ip, lastSeen);
+      PlayerData data = new PlayerData(profile.getUuid(), name, ip, lastSeen);
 
     try {
       playerStorage.createOrUpdate(data);

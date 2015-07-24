@@ -38,13 +38,20 @@ public class IpBanRecordConverter extends Converter {
         PlayerData banActor = playerStorage.retrieve(actorName, false);
         PlayerData actor = playerStorage.retrieve(unbannedActorName, false);
 
-        if (actor == null) {
-          actor = playerStorage.getConsole();
-        }
+          if (actor == null && !(unbannedActorName.equalsIgnoreCase("Console"))) {
+              actor = findAndCreate(unbannedActorName, created);
+          }
+          if (actor == null) {
+              actor = playerStorage.getConsole();
+          }
 
-        if (banActor == null) {
-          banActor = playerStorage.getConsole();
-        }
+
+          if (banActor == null && !(actorName.equalsIgnoreCase("Console"))) {
+              banActor = findAndCreate(actorName, created);
+          }
+          if (banActor == null) {
+              banActor = playerStorage.getConsole();
+          }
 
         IpBanData ban = new IpBanData(IPUtils.toLong(ip), banActor, reason, expires, pastCreated);
         IpBanRecord record = new IpBanRecord(ban, actor, created);

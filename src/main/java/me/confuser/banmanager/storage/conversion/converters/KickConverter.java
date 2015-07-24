@@ -32,9 +32,12 @@ public class KickConverter extends Converter {
         PlayerData player = playerStorage.retrieve(name, false);
         PlayerData actor = playerStorage.retrieve(actorName, false);
 
-        if (actor == null) {
-          actor = playerStorage.getConsole();
-        }
+          if (actor == null && !(actorName.equalsIgnoreCase("Console"))) {
+              actor = findAndCreate(actorName, created);
+          }
+          if (actor == null) {
+              actor = playerStorage.getConsole();
+          }
 
         if (player == null) {
           player = findAndCreate(name, created);
