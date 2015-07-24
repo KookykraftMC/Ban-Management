@@ -27,14 +27,9 @@ import java.util.UUID;
 
 public class JoinListener extends Listeners<BanManager> {
 
-  //@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-  //public void banCheck(final AsyncPlayerPreLoginEvent event) {
-    //  plugin.getLogger().severe("[DEBUG] " + "banCheck called");
   @EventHandler(priority = EventPriority.HIGHEST)
-  public void onPlayerLogin(final AsyncPlayerPreLoginEvent event) {
-      plugin.getLogger().severe("[DEBUG] " + "onPlayerLogin called");
+  public void banCheck(final PlayerLoginEvent event) {
     if (plugin.getIpRangeBanStorage().isBanned(event.getAddress())) {
-        plugin.getLogger().severe("[DEBUG] " + "onPlayerLogin - iprange ban");
       IpRangeBanData data = plugin.getIpRangeBanStorage().getBan(event.getAddress());
 
       if (data.hasExpired()) {
@@ -60,13 +55,12 @@ public class JoinListener extends Listeners<BanManager> {
       message.set("reason", data.getReason());
       message.set("actor", data.getActor().getName());
 
-        event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
+        event.setResult(PlayerLoginEvent.Result.KICK_BANNED);
       event.setKickMessage(message.toString());
       return;
     }
 
     if (plugin.getIpBanStorage().isBanned(event.getAddress())) {
-        plugin.getLogger().severe("[DEBUG] " + "onPlayerLogin - ip ban");
       IpBanData data = plugin.getIpBanStorage().getBan(event.getAddress());
 
       if (data.hasExpired()) {
@@ -92,15 +86,13 @@ public class JoinListener extends Listeners<BanManager> {
       message.set("reason", data.getReason());
       message.set("actor", data.getActor().getName());
 
-        event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
+        event.setResult(PlayerLoginEvent.Result.KICK_BANNED);
       event.setKickMessage(message.toString());
       handleJoinDeny(event.getAddress().toString(), data.getReason());
       return;
     }
     //UUID Provider Integration @MrWisski
-      plugin.getLogger().severe("[DEBUG] " + "banCheck event.getName - " + event.getName());
-    PlayerBanData data = plugin.getPlayerBanStorage().getBan(BanManager.getUUID(event.getName()));
-      plugin.getLogger().severe("[DEBUG] " + "banCheck data - " + data);
+    PlayerBanData data = plugin.getPlayerBanStorage().getBan(BanManager.getUUID(event.getPlayer().getName()));
     //old
     //PlayerBanData data = plugin.getPlayerBanStorage().getBan(event.getUniqueId());
 
@@ -131,7 +123,7 @@ public class JoinListener extends Listeners<BanManager> {
     message.set("reason", data.getReason());
     message.set("actor", data.getActor().getName());
 
-      event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
+      event.setResult(PlayerLoginEvent.Result.KICK_BANNED);
     event.setKickMessage(message.toString());
     handleJoinDeny(data.getPlayer(), data.getReason());
   }
@@ -149,10 +141,9 @@ public class JoinListener extends Listeners<BanManager> {
   }
 
   @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-  public void onJoin(AsyncPlayerPreLoginEvent event) {
-      plugin.getLogger().severe("[DEBUG] " + "onJoin async called");
+  public void onJoin(PlayerLoginEvent event) {
 	  //UUID Provider Integration @MrWisski
-	PlayerData player = new PlayerData(BanManager.getUUID(event.getName()), event.getName(), event.getAddress());
+	PlayerData player = new PlayerData(BanManager.getUUID(event.getPlayer().getName()), event.getPlayer().getName(), event.getAddress());
     //old
 	//PlayerData player = new PlayerData(event.getUniqueId(), event.getName(), event.getAddress());
 
@@ -166,7 +157,6 @@ public class JoinListener extends Listeners<BanManager> {
 
   @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
   public void onJoin(final PlayerJoinEvent event) {
-      plugin.getLogger().severe("[DEBUG] " + "onJoin called");
     plugin.getServer().getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
 
       public void run() {
@@ -242,10 +232,8 @@ public class JoinListener extends Listeners<BanManager> {
     }, 20L);
   }
 
-  @EventHandler(priority = EventPriority.MONITOR)
+  @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
   public void onPlayerLogin(final PlayerLoginEvent event) {
-      plugin.getLogger().severe("[DEBUG] " + "onPlayerLogin called");
-      plugin.getLogger().severe("[DEBUG] " + "event.GetResult - " + event.getResult());
     if (event.getResult() != PlayerLoginEvent.Result.ALLOWED) {
       return;
     }
