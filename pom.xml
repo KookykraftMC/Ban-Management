@@ -7,7 +7,7 @@
     <name>BanManager</name>
     <description>A database driven ban system</description>
     <build>
-        <finalName>${project.artifactId}-${version}</finalName>
+        <finalName>${project.artifactId}-${version}-16</finalName>
         <resources>
             <resource>
                 <targetPath>.</targetPath>
