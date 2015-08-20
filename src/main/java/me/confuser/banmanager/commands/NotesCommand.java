@@ -1,10 +1,12 @@
 package me.confuser.banmanager.commands;
 
 import com.j256.ormlite.dao.CloseableIterator;
+
 import me.confuser.banmanager.BanManager;
 import me.confuser.banmanager.data.PlayerData;
 import me.confuser.banmanager.data.PlayerNoteData;
 import me.confuser.bukkitutil.Message;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,6 +14,7 @@ import org.bukkit.entity.Player;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 public class NotesCommand extends AutoCompleteNameTabCommand<BanManager> {
 
@@ -86,7 +89,10 @@ public class NotesCommand extends AutoCompleteNameTabCommand<BanManager> {
 
         @Override
         public void run() {
-          Collection<? extends Player> onlinePlayers = plugin.getServer().getOnlinePlayers();
+          Collection<Player> onlinePlayers = new HashSet<Player>();
+          for(Player p : plugin.getServer().getOnlinePlayers()){
+        	  onlinePlayers.add(p);
+          }
 
           if (onlinePlayers.size() == 0) {
             Message.get("notes.error.noOnlineNotes").sendTo(sender);

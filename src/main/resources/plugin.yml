@@ -2,7 +2,10 @@ main: me.confuser.banmanager.BanManager
 name: BanManager
 version: ${project.version}
 authors: [ confuser ]
+description: confuser's BanManager
+depend: [UUIDProvider]
 website: http://dev.bukkit.org/bukkit-plugins/ban-management/
+
 commands: 
   ban: 
     description: "ban a player"

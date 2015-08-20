@@ -30,6 +30,7 @@ import java.util.UUID;
 
 
 
+
 //For 1.6.4 UUID Compatibility - @MrWisski
 import net.kaikk.mc.uuidprovider.UUIDProvider;
 
@@ -126,8 +127,30 @@ public class BanManager extends BukkitPlugin {
 
   @Override
   public void onEnable() {
+    //UUID Provider service integration - @MrWisski
+    try {
+    	Plugin uuidplugin = this.getServer().getPluginManager().getPlugin("UUIDProvider");
+    	if(uuidplugin instanceof UUIDProvider){
+    		this.uuidprov = (UUIDProvider)uuidplugin;
+    		getLogger().info("Found UUIDProvider plugin! Using UUIDProvider ("+uuidprov.getDescription().getVersion()+") for all UUID related activities!");
+    	} else {
+    		//We shouldn't ever get here, as UUIDProvider is listed as a depend.... but just in case.
+    		getLogger().severe("**********************************************************************************");
+    		getLogger().severe("Could not find UUIDProvider - This is a REQUIRED Dependency!");
+    		getLogger().severe("This version of BanManager will not run without it!");
+    		getLogger().severe("BanManager is DISABLED.");
+    		getLogger().severe("**********************************************************************************");
+    		Thread.sleep(20000);
+    		return;
+    	}
+    } catch (Exception e) {
+    	getLogger().severe("Caught exception establishing external UUID Provider services : ");
+    	getLogger().severe(e.getMessage());
+    	e.printStackTrace();
+    }    
+    
     plugin = this;
-
+    
     setupConfigs();
     try {
       if (!configuration.isDebugEnabled()) {
@@ -166,22 +189,7 @@ public class BanManager extends BukkitPlugin {
     setupListeners();
     setupCommands();
     setupRunnables();
-
-    //UUID Provider service integration - @MrWisski
-    try {
-    	Plugin uuidplugin = this.getServer().getPluginManager().getPlugin("UUIDProvider");
-    	if(uuidplugin instanceof UUIDProvider){
-    		this.uuidprov = (UUIDProvider)uuidplugin;
-    		getLogger().info("Found UUIDProvider plugin! Using UUIDProvider for all UUID related activities!");
-    	} else {
-    		getLogger().warning("Could not find UUIDProvider - Will use default BM UUID Provider services - NOT COMPATIBLE WITH 1.6.4!");
-    	}
-    } catch (Exception e) {
-    	getLogger().severe("Caught exception establishing external UUID Provider services : ");
-    	getLogger().severe(e.getMessage());
-    	e.printStackTrace();
-    }
-    
+  
     try {
       MetricsLite metrics = new MetricsLite(this);
       metrics.start();
@@ -577,7 +585,7 @@ public static Player getPlayer(UUID uuid){
 		  return p;
 	  }
 	  
-	  return plugin.getServer().getPlayer(uuid);
+	  return plugin.getServer().getPlayer(UUIDProvider.retrieve(uuid));
   }
   
 }

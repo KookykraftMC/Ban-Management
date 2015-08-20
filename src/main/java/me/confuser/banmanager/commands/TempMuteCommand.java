@@ -9,6 +9,8 @@ import me.confuser.banmanager.util.CommandUtils;
 import me.confuser.banmanager.util.DateUtils;
 import me.confuser.banmanager.util.UUIDUtils;
 import me.confuser.bukkitutil.Message;
+import net.kaikk.mc.uuidprovider.UUIDProvider;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -69,7 +71,7 @@ public class TempMuteCommand extends AutoCompleteNameTabCommand<BanManager> {
     Player onlinePlayer;
 
     if (isUUID) {
-      onlinePlayer = plugin.getServer().getPlayer(UUID.fromString(playerName));
+      onlinePlayer = plugin.getServer().getPlayer(UUIDProvider.retrieve(UUID.fromString(playerName)));
     } else {
       onlinePlayer = plugin.getServer().getPlayer(playerName);
     }
