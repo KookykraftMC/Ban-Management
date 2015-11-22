@@ -29,6 +29,8 @@ public class PlayerWarnStorage extends BaseDaoImpl<PlayerWarnData, Integer> {
       TableUtils.createTable(connection, tableConfig);
     } else {
       // Attempt to add new columns
+      // Removed due to errors
+      /*
       try {
         String update = "ALTER TABLE " + tableConfig
                 .getTableName() + " ADD COLUMN `expires` INT(10) NOT NULL DEFAULT 0," +
@@ -36,6 +38,7 @@ public class PlayerWarnStorage extends BaseDaoImpl<PlayerWarnData, Integer> {
         executeRawNoArgs(update);
       } catch (SQLException e) {
       }
+      */
     }
   }
 
